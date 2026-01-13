@@ -37,6 +37,7 @@ Options:
   --reuse        Use existing branch instead of creating a new one
   --no-hooks     Skip pre-start and post-start hooks
   --no-copy      Skip copying files and directories
+  --dry-run      Show what would be executed without making changes
 
 Setup:
   Add this to your .zshrc:
@@ -54,7 +55,7 @@ Examples:
 
 async function main(): Promise<void> {
   const args = parseArgs(Deno.args, {
-    boolean: ["help", "version", "reuse", "no-hooks", "no-copy"],
+    boolean: ["help", "version", "reuse", "no-hooks", "no-copy", "dry-run"],
     alias: { h: "help", v: "version" },
   });
 
@@ -85,7 +86,8 @@ async function main(): Promise<void> {
       const reuse = args.reuse;
       const noHooks = args["no-hooks"];
       const noCopy = args["no-copy"];
-      await startCommand(branchName, { reuse, noHooks, noCopy });
+      const dryRun = args["dry-run"];
+      await startCommand(branchName, { reuse, noHooks, noCopy, dryRun });
       break;
     }
     case "clean":
